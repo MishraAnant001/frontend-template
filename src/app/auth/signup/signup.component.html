@@ -1,0 +1,33 @@
+<div class="container vh-100 d-flex justify-content-center align-items-center vw-100">
+    <form class=" rounded-3 p-4 w-25 " [formGroup]="form" (ngSubmit)="onSubmit()">
+        <h3 class="text-center">Register</h3>
+        <div class="mb-3">
+          <label  class="form-label">Name</label>
+          <input type="text" class="form-control" formControlName="name" [ngClass]="{'is-invalid': submitted && f['name'].errors}">
+          <div class="invalid-feedback text-white" *ngIf="submitted && f['name'].errors">
+            <div *ngIf="f['name'].errors['required']">name is required</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label  class="form-label">Email address</label>
+          <input type="text" class="form-control" formControlName="email" [ngClass]="{'is-invalid': submitted && f['email'].errors}">
+          <div class="invalid-feedback text-white" *ngIf="submitted && f['email'].errors">
+            <div *ngIf="f['email'].errors['required']">email is required</div>
+            <div *ngIf="f['email'].errors['pattern']">invalid email</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label  class="form-label">Password</label>
+          <input type="password" class="form-control" formControlName="password" [ngClass]="{'is-invalid': submitted && f['password'].errors}">
+          <div class="invalid-feedback text-white" *ngIf="submitted && f['password'].errors">
+            <div *ngIf="f['password'].errors['required']">password is required</div>
+            <div *ngIf="f['password'].errors['minlength']">minimum 8 characters required!</div>
+            <div *ngIf="f['password'].errors['maxlength']">maximum 16 characters allowed!</div>
+          </div>
+        </div>
+        <div class="container-fluid d-flex flex-column align-items-center justify-content-center">
+          <button type="submit" class="btn btn-success">Submit</button>
+          <a routerLink="/auth/login" class="text-decoration-none mt-3 text-white link" >Already a user login here</a>
+      </div>
+      </form>
+</div>
