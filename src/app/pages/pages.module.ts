@@ -5,10 +5,13 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
   declarations: [
+  
+    DashboardComponent
   ],
   imports: [
     CommonModule,

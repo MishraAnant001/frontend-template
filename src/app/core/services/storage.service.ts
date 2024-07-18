@@ -21,26 +21,26 @@ export class StorageService {
   }
 
   setRole(role:string){
-    localStorage.setItem("role",role)
+    localStorage.setItem("role",window.btoa(role))
   }
 
   getRole(){
-    return localStorage.getItem("role")
+    return window.atob(localStorage.getItem("role")!)
   }
 
   setName(name:string){
-    localStorage.setItem("name",name)
+    localStorage.setItem("name",window.btoa(name))
   }
 
   getName(){
-    return localStorage.getItem("name")
+    return window.atob(localStorage.getItem("name")!)
   }
 
   setUser(user:IUser){
-    localStorage.setItem("user",JSON.stringify(user))
+    localStorage.setItem("user",window.btoa(JSON.stringify(user)))
   }
   getUser(){
-    return JSON.parse(localStorage.getItem("user") as string)
+    return JSON.parse(window.atob(localStorage.getItem("user") as string))
   }
 
   clear(){

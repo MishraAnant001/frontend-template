@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <h3 class="my-2 text-center">Account Details</h3>
+    <p-table [value]="accounts" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" styleClass="p-datatable-striped"
+        [rowsPerPageOptions]="[10, 25, 50]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Account No.</th>
+                <th>Account Type</th>
+                <th>Balance</th>
+                <th>Opening Date</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-account>
+            <tr>
+                <td>{{ account.account_number }}</td>
+                <td>{{ account.account_type }}</td>
+                <td>{{ account.balance }}</td>
+                <td>{{ account.createdAt | date:"fullDate" }}</td>
+                <td><button class="btn btn-outline-success" (click)="showTransaction(account._id)">Show
+                        transactions</button></td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <div *ngIf="isTransReceived">
+        <div class="border-2 my-4 p-2  rounded-3 section">
+            <h3 class="my-2 text-center">Transaction Details</h3>
+            <p-table [value]="transactions" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                styleClass="p-datatable-striped" [rowsPerPageOptions]="[10, 25, 50]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Transaction Id</th>
+                        <th>Sender's Account</th>
+                        <th>Sender's Name</th>
+                        <th>Reciever's Account</th>
+                        <th>Reciever's Name</th>
+                        <th>Amount</th>
+                        <th>Transaction Type</th>
+                        <th>Description</th>
+                        <th>Transaction Date</th>
+                        <th>Remaining Balance</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-txn>
+                    <tr>
+                        <td>{{txn._id}}</td>
+                        <td>{{txn.sender_account}}</td>
+                        <td>{{txn.sender_name}}</td>
+                        <td>{{txn.reciever_account}}</td>
+                        <td>{{txn.receiver_name}}</td>
+                        <td>{{txn.amount | currency:'INR'}}</td>
+                        <td>{{txn.type}}</td>
+                        <td>{{txn.description || 'N/A'}}</td>
+                        <td>{{txn.createdAt | date:"fullDate"}}</td>
+                        <td>{{txn.remaining_balance | currency:'INR'}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

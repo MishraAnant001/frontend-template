@@ -1,0 +1,57 @@
+<h3 class="my-2 text-center">Transaction Details</h3>
+<form (submit)="onSubmit()" [formGroup]="filterForm">
+    <div class="d-flex justify-content-end flex-wrap my-2">
+        <div>
+            <label for="sdate" class="form-label">Start Date</label>
+            <input type="date" id="sdate" class="form-control" formControlName="start_date"
+                [ngClass]="{'is-invalid': submitted && f['start_date'].errors}">
+            <div class="invalid-feedback" *ngIf="submitted && f['start_date'].errors">
+                <div *ngIf="f['start_date'].errors['required']">required</div>
+            </div>
+        </div>
+        <div class="ms-3">
+            <label for="edate" class="form-label" >End Date</label>
+            <input type="date" id="edate" class="form-control" formControlName="end_date" [ngClass]="{'is-invalid': submitted && f['end_date'].errors}">
+            <div class="invalid-feedback" *ngIf="submitted && f['end_date'].errors">
+                <div *ngIf="f['end_date'].errors['future']">future dates not allowed</div>
+            </div>
+        </div>
+        <div class="ms-2">
+            <button class="btn btn-outline-success" type="submit" style="margin-top: 2rem;">Apply Filter</button>
+        </div>
+
+    </div>
+</form>
+<p-table [value]="transactions" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" styleClass="p-datatable-striped"
+    [rowsPerPageOptions]="[10, 25, 50]">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Transaction Id</th>
+            <th>Sender's Account</th>
+            <th>Sender's Name</th>
+            <th>Reciever's Account</th>
+            <th>Reciever's Name</th>
+            <th>Amount</th>
+            <th>Transaction Type</th>
+            <th>Description</th>
+            <th>Transaction Date</th>
+            <th>Remaining Balance</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-txn>
+        <tr>
+            <td>{{txn._id}}</td>
+            <td>{{txn.sender_account}}</td>
+            <td>{{txn.sender_name}}</td>
+            <td>{{txn.reciever_account}}</td>
+            <td>{{txn.receiver_name}}</td>
+            <td>{{txn.amount | currency:'INR'}}</td>
+            <td>{{txn.type}}</td>
+            <td>{{txn.description || 'N/A'}}</td>
+            <td>{{txn.createdAt | date:"fullDate"}}</td>
+            <td>{{txn.remaining_balance | currency:'INR'}}</td>
+        </tr>
+    </ng-template>
+</p-table>

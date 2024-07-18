@@ -1,0 +1,121 @@
+<div class="container-fluid">
+    <div class="d-flex justify-content-between my-2">
+        <h3>Account Details</h3>
+        <button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#modalId" *ngIf="accounts.length!=2">add account</button>
+    </div>
+    <p-table [value]="accounts" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" styleClass="p-datatable-striped"
+        [rowsPerPageOptions]="[10, 25, 50]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Account No.</th>
+                <th>Account Type</th>
+                <th>Balance</th>
+                <th>Opening Date</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-account>
+            <tr>
+                <td>{{ account.account_number }}</td>
+                <td>{{ account.account_type }}</td>
+                <td>{{ account.balance }}</td>
+                <td>{{ account.createdAt | date:"fullDate" }}</td>
+                <td class="text-center"><button class="btn btn-outline-success" (click)="showTransaction(account._id)">Show
+                        transactions</button> <button class="btn btn-outline-danger ms-2" (click)="onDelete(account._id)">Delete</button></td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
+        aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">
+                        Account Form
+                    </h5>
+                    <button type="button" #btn class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form (submit)="onSubmit()" [formGroup]="accountForm" >
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Account type</label>
+                            <select formControlName="account_type" id="type" class="form-select"  [ngClass]="{'is-invalid': submitted && f['account_type'].errors}">
+                                <option selected value="">Select account type</option>
+                                <option *ngIf="!accountTypes.includes('savings')" value="savings">savings</option>
+                                <option *ngIf="!accountTypes.includes('current')" value="current">current</option>
+                                <!-- <option  value="savings">savings</option>
+                                <option value="current">current</option> -->
+                            </select>
+                            <div class="invalid-feedback" *ngIf=" submitted && f['account_type'].errors">
+                                <div *ngIf="f['account_type'].errors['required']">type is required</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bal" class="form-label">Initial balance</label>
+                            <input type="number" formControlName="balance" id="bal" class="form-control" [ngClass]="{'is-invalid': submitted && f['balance'].errors}">
+                            <div class="invalid-feedback" *ngIf=" submitted && f['balance'].errors">
+                                <div *ngIf="f['balance'].errors['required']">balance is required</div>
+                                <div *ngIf="f['balance'].errors['min']">minimum balance should be 1000</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional: Place to the bottom of scripts -->
+    <script>
+        const myModal = new bootstrap.Modal(
+            document.getElementById("modalId"),
+            options,
+        );
+    </script>
+
+
+    <div *ngIf="isTransReceived">
+        <div class="border-2 my-4 p-2  rounded-3 section">
+            <h3 class="my-2 text-center">Transaction Details</h3>
+            <p-table [value]="transactions" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                styleClass="p-datatable-striped" [rowsPerPageOptions]="[10, 25, 50]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Transaction Id</th>
+                        <th>Sender's Account</th>
+                        <th>Sender's Name</th>
+                        <th>Reciever's Account</th>
+                        <th>Reciever's Name</th>
+                        <th>Amount</th>
+                        <th>Transaction Type</th>
+                        <th>Description</th>
+                        <th>Transaction Date</th>
+                        <th>Remaining Balance</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-txn>
+                    <tr>
+                        <td>{{txn._id}}</td>
+                        <td>{{txn.sender_account}}</td>
+                        <td>{{txn.sender_name}}</td>
+                        <td>{{txn.reciever_account}}</td>
+                        <td>{{txn.receiver_name}}</td>
+                        <td>{{txn.amount | currency:'INR'}}</td>
+                        <td>{{txn.type}}</td>
+                        <td>{{txn.description || 'N/A'}}</td>
+                        <td>{{txn.createdAt | date:"fullDate"}}</td>
+                        <td>{{txn.remaining_balance | currency:'INR'}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

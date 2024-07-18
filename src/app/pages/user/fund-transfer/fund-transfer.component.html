@@ -1,0 +1,49 @@
+<div class="d-flex justify-content-center w-100 align-items-center h-100">
+    <form class="w-25" (submit)="onSubmit()" [formGroup]="accountForm"  class="section rounded-4 shadow-lg p-3">
+        <h3 class="text-center my-2">Fund transfer form </h3>
+        <div class="mb-3">
+            <label for="account" class="form-label">Account No.</label>
+            <select formControlName="from_account" class="form-select" id="account" [ngClass]="{'is-invalid': submitted && f['from_account'].errors}">
+                <option value="{{account.account_number}}"  *ngFor="let account of accounts">{{account.account_number}}</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="submitted && f['from_account'].errors">
+                <div *ngIf="f['from_account'].errors['required']">Sender's account is required</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="type" class="form-label">Type</label>
+            <select formControlName="type" #select class="form-select" id="type" [ngClass]="{'is-invalid': submitted && f['type'].errors}">
+                <option value="debit">Debit</option>
+                <option value="credit">Credit</option>
+                <option value="transfer">Transfer</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="submitted && f['type'].errors">
+                <div *ngIf="f['type'].errors['required']">transaction type is required</div>
+            </div>
+        </div>
+        <div class="mb-3" *ngIf="select.value=='transfer'">
+            <label for="to_account" class="form-label">Reciever's Account No.</label>
+            <input type="text" formControlName="to_account" class="form-control" id="to_account" [ngClass]="{'is-invalid': submitted && f['to_account'].errors}">
+            <div class="invalid-feedback" *ngIf="submitted && f['to_account'].errors">
+                <div *ngIf="f['to_account'].errors['required']">Reciever's account is required</div>
+                <div *ngIf="f['to_account'].errors['pattern']">account number must be of 14 digits</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="number" formControlName="amount" class="form-control" id="amount" [ngClass]="{'is-invalid': submitted && f['amount'].errors}">
+            <div class="invalid-feedback" *ngIf="submitted && f['amount'].errors">
+                <div *ngIf="f['amount'].errors['required']">amount is required</div>
+                <div *ngIf="f['amount'].errors['min']">minimum 1 is required</div>
+                
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" formControlName="description" class="form-control" id="description">
+        </div>
+        <div class="d-flex justify-content-center my-2">
+            <button class="btn btn-success" type="submit">Generate</button>
+        </div>
+    </form>
+</div>

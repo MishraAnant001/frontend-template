@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MediaService } from './media.service';
+import { DataExchangeService } from './data-exchange.service';
 
-describe('MediaService', () => {
-  let service: MediaService;
+describe('DataExchangeService', () => {
+  let service: DataExchangeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MediaService);
+    service = TestBed.inject(DataExchangeService);
   });
 
   it('should be created', () => {

@@ -9,6 +9,10 @@ import { LayoutsModule } from './layouts/layouts.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HeaderInterceptor } from './core/interceptors';
 
+import { ToastService, AngularToastifyModule } from 'angular-toastify'; 
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
 
 @NgModule({
   declarations: [
@@ -20,12 +24,16 @@ import { HeaderInterceptor } from './core/interceptors';
     RouterModule,
     LayoutsModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularToastifyModule,
+    ConfirmDialogModule
   ],
   providers: [
     {
       provide:HTTP_INTERCEPTORS, useClass:HeaderInterceptor,multi:true
-    }
+    },
+    ToastService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })
